@@ -1,22 +1,24 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import Link from 'next/link';
 import HomeButton from './HomeButton';
+import { useProgress } from '@react-three/drei';
 
-function Button({ setStarted, started }) {
+function Button({ setStarted }) {
+  const { progress } = useProgress();
+
   return (
     <div className="welcome">
-      {/* <div className="welcome_text--fill">START</div> */}
-      <button className="welcome_text" onClick={setStarted} disabled={started}>
+      <button className="welcome_text" onClick={setStarted} disabled={progress !== 100}>
         START
       </button>
     </div>
   );
 }
 
-const Overlay = forwardRef(({ caption, scroll, started, setStarted }, ref) => {
+const Overlay = forwardRef(({ caption, scroll, setStarted }, ref) => {
   return (
     <>
-      <Button setStarted={setStarted} started={started} />
+      <Button setStarted={setStarted} />
       <div
         className="scroll"
         ref={ref}

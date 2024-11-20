@@ -19,18 +19,18 @@ function Loader() {
   );
 }
 
+function slowScrollY(scroll) {
+  for (let i = 0; i < scroll; i += 500) {
+    document.querySelector('.scroll').scroll(0, i);
+  }
+}
+
 export default function IndexPage() {
   const overlay = useRef();
   const caption = useRef();
   const scroll = useRef(0);
   const [started, setStarted] = useState(false);
   const router = useRouter();
-
-  async function slowScrollY(scroll) {
-    for (let i = 0; i < scroll; i += 500) {
-      document.querySelector('.scroll').scroll(0, i);
-    }
-  }
 
   function setStart(e) {
     e.target.style.opacity = 0;
@@ -93,7 +93,6 @@ export default function IndexPage() {
         router={router}
         caption={caption}
         scroll={scroll}
-        started={started}
         setStarted={setStart}
       />
     </>

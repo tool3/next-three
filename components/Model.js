@@ -1,13 +1,9 @@
-import * as THREE from 'three';
+import { PerspectiveCamera, useAnimations, useGLTF } from '@react-three/drei';
+import { useFrame, useLoader } from '@react-three/fiber';
+import { EffectComposer, SelectiveBloom } from '@react-three/postprocessing';
+import { KernelSize, Resizer } from 'postprocessing';
 import React, { Suspense, useEffect, useRef, useState } from 'react';
-import { useGLTF, useAnimations, PerspectiveCamera, useDepthBuffer, SpotLight, useHelper } from '@react-three/drei';
-import { useFrame, useLoader, useThree } from '@react-three/fiber';
-import { Bloom, Noise } from '@react-three/postprocessing';
-import { BlurPass, Resizer, KernelSize } from 'postprocessing';
-import { EffectComposer } from '@react-three/postprocessing';
-import { SelectiveBloom } from '@react-three/postprocessing';
-import { LightSource } from './LightSource';
-import { DirectionalLightHelper } from 'three';
+import * as THREE from 'three';
 
 function isMobile() {
   const ua = window.navigator.userAgent;
