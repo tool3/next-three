@@ -7,10 +7,11 @@ import Overlay from '../components/Overlay';
 import { Html, useProgress } from '@react-three/drei';
 import { useRouter } from 'next/router';
 import Particles from '../components/Particles';
+import { Perf } from 'r3f-perf';
 
 function Loader() {
   const { progress } = useProgress();
-  useEffect(() => {}, [progress]);
+  useEffect(() => { }, [progress]);
   return (
     <Html center className="loading">
       {progress.toFixed(2)} % loaded
@@ -18,19 +19,11 @@ function Loader() {
   );
 }
 
-function GlowingParticles({ size, random, amount, ...props }) {
-  const sizes = React.useMemo(() => {
-    return new Float32Array(Array.from({ length: amount }, () => Math.random() * size));
-  }, [size, amount]);
-
-  return <Sparkles {...props} size={random ? sizes : size} color="orange" count={amount} />;
-}
-
 export default function IndexPage() {
   const overlay = useRef();
   const caption = useRef();
   const scroll = useRef(0);
-  const [started, setStarted] = useState();
+  const [started, setStarted] = useState(false);
   const router = useRouter();
 
   async function slowScrollY(scroll) {
@@ -41,9 +34,7 @@ export default function IndexPage() {
 
   function setStart(e) {
     e.target.style.opacity = 0;
-    // setTimeout(() => {
-      e.target.parentElement.style.display = 'none';
-    // }, 220);
+    e.target.parentElement.style.display = 'none';
     setStarted(true);
   }
 
@@ -51,11 +42,11 @@ export default function IndexPage() {
     const mobile = window.innerWidth <= 600;
     const onHashChangeStart = (url) => {
       const paths = {
+        motto: { path: '/#motto', value: mobile ? 3866 : 4500, selector: '.rock' },
         music: { path: '/#music', value: mobile ? 6000 : 6500, selector: '.music' },
-        motto: { path: '/#motto', value: mobile ? 4000 : 4500, selector: '.rock' },
         vr: { path: '/#vr', value: mobile ? 7500 : 8000, selector: '.vr' },
         '3d': { path: '/#3d', value: mobile ? 9500 : 10500, selector: '.ddd' },
-        code: { path: '/#code', value: mobile ? 11000 : 13000, selector: '.code' },
+        code: { path: '/#code', value: mobile ? 11500 : 13000, selector: '.code' },
         links: { path: '/#links', value: 16000, selector: '.links' }
       };
 
@@ -91,11 +82,10 @@ export default function IndexPage() {
         <ambientLight intensity={1} />
 
         <Suspense fallback={<Loader />}>
+          <Perf />
           <Model router={router} scroll={scroll} started={started} />
           <Particles color={0xff00ff} />
           <Particles color={0x00ffff} />
-          {/* <GlowingParticles random={false} amount={100} size={0.1} position={[1, 2, 10]} /> */}
-          {/* <Environment preset="studio" /> */}
         </Suspense>
       </Canvas>
       <Overlay

@@ -23,7 +23,7 @@ export default function Model({ scroll, started, router, ...props }) {
   const light2 = useRef();
   const eyesRef = useRef();
   const eyesLight = useRef();
-  useHelper(eyesLight, DirectionalLightHelper, 'red');
+
   const [imageTexture] = useLoader(THREE.TextureLoader, ['/images/matrix_screenshot.png']);
 
   const { nodes, materials, animations } = useGLTF('/models/spiral_scroll_z.glb');
@@ -81,7 +81,9 @@ export default function Model({ scroll, started, router, ...props }) {
       video.muted = false;
     }
   });
+
   useEffect(() => void (actions['CameraAction.005'].play().paused = true), []);
+
   useEffect(() => {
     group.current.children[0].children.forEach((child) => {
       if (child instanceof THREE.Mesh) {
@@ -213,8 +215,9 @@ export default function Model({ scroll, started, router, ...props }) {
               scale={[3.5, 3.5, 3.5]}
               ref={eyesRef}
               geometry={nodes.Suzanne_Eyes.geometry}
-              material={new THREE.MeshPhongMaterial({ color: '#9ad0a0', emissiveIntensity: 1, emissive: '#9ad0a0' })}
-              {...extras}></mesh>
+              material={new THREE.MeshStandardMaterial({ emissiveIntensity: 10 })}
+              {...extras}>
+            </mesh>
           </group>
           <mesh name="VR_Headset" geometry={nodes.VR_Headset.geometry} material={materials.M_Headset} {...extras} />
           <mesh
@@ -226,7 +229,7 @@ export default function Model({ scroll, started, router, ...props }) {
             v
           />
 
-          <EffectComposer autoClear={false}>
+          <EffectComposer autoClear>
             {/* <DepthOfField focusDistance={0.08} focalLength={0.2} bokehScale={5} blur /> */}
             <SelectiveBloom
               lights={[light1, light2]} // ⚠️ REQUIRED! all relevant lights
@@ -236,7 +239,7 @@ export default function Model({ scroll, started, router, ...props }) {
               width={Resizer.AUTO_SIZE} // render width
               height={Resizer.AUTO_SIZE} // render height
               kernelSize={KernelSize.LARGE} // blur kernel size
-              luminanceThreshold={0.3} // luminance threshold. Raise this value to mask out darker elements in the scene.
+              luminanceThreshold={0.2} // luminance threshold. Raise this value to mask out darker elements in the scene.
               luminanceSmoothing={0.1} // smoothness of the luminance threshold. Range is [0, 1]
             />
             {/* <Noise opacity={0.1} blendFunction={THREE.Blending}/> */}
