@@ -20,7 +20,9 @@ const Overlay = forwardRef(({ caption, scroll, started, setStarted }, ref) => {
       <div
         ref={ref}
         onScroll={(e) => {
+          e.preventDefault();
           scroll.current = e.target.scrollTop / (e.target.scrollHeight - window.innerHeight);
+          console.log({ scroll });
           caption.current.innerText = (scroll.current * 100).toFixed(2) + '%';
           if (scroll.current > 0) {
             document.querySelector('.floating_home').style.display = 'inline-block';

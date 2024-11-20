@@ -41,9 +41,9 @@ export default function IndexPage() {
 
   function setStart(e) {
     e.target.style.opacity = 0;
-    setTimeout(() => {
+    // setTimeout(() => {
       e.target.parentElement.style.display = 'none';
-    }, 220);
+    // }, 220);
     setStarted(true);
   }
 
@@ -95,7 +95,7 @@ export default function IndexPage() {
           <Particles color={0xff00ff} />
           <Particles color={0x00ffff} />
           {/* <GlowingParticles random={false} amount={100} size={0.1} position={[1, 2, 10]} /> */}
-          <Environment preset="city" />
+          {/* <Environment preset="studio" /> */}
         </Suspense>
       </Canvas>
       <Overlay
